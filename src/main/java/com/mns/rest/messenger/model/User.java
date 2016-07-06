@@ -53,8 +53,9 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public boolean equals(User obj) {
-        return this.phoneNumber.equalsIgnoreCase(obj.getPhoneNumber());
+    @Override
+    public boolean equals(Object obj) {
+        return this.phoneNumber.contentEquals(((User) obj).phoneNumber);
     }
 
 }

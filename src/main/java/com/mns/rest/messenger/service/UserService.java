@@ -27,6 +27,8 @@ public class UserService {
     }
 
     public List<User> getAllUsers() {
+        createUser("mns", "91952677721");
+        createUser("mns2", "91952677722");
         return userList;
     }
 }
