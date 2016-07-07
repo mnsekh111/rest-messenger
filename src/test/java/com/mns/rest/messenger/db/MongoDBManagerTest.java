@@ -45,7 +45,7 @@ public class MongoDBManagerTest {
         System.out.println("init");
         MongoDBManager.init();
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
     
 }
