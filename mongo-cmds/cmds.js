@@ -30,8 +30,14 @@ db.Users.insert([
     
 ]);
 db.Users.find({"name" : "Sekhar"});
-
 db.Users.find({"phone" : {$lte:4500000}});
 
+//And conditional
+db.Users.find({"name" : "Sekhar3","phone":232340});
+
+//Or conditional
+db.Users.find({
+    $or:[{"name" : "Sekhar3","phone":232340}]
+});
 //Find all
 db.Users.find();
