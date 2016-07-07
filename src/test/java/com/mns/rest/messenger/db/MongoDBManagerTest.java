@@ -5,6 +5,8 @@
  */
 package com.mns.rest.messenger.db;
 
+import com.mongodb.MongoClient;
+import org.glassfish.hk2.utilities.reflection.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -38,14 +40,27 @@ public class MongoDBManagerTest {
     }
 
     /**
-     * Test of init method, of class MongoDBManager.
+     * Test of getMongoClient method, of class MongoDBManager.
      */
-    @org.junit.Test
-    public void testInit() {
-        System.out.println("init");
-        MongoDBManager.init();
-        // TODO review the generated test code and remove the default call to fail.
+    @Test
+    public void testGetMongoClient() {
+        System.out.println("getMongoClient");
+        MongoClient expResult = null;
+        MongoClient client = MongoDBManager.getMongoClient();
         
+        System.out.println(client.getDatabaseNames().toString());
+        
+    }
+
+    /**
+     * Test of closeMongoClient method, of class MongoDBManager.
+     */
+    @Test
+    public void testCloseMongoClient() {
+        System.out.println("closeMongoClient");
+        MongoDBManager instance = new MongoDBManager();
+        instance.closeMongoClient();
+        // TODO review the generated test code and remove the default call to fail.
     }
     
 }
