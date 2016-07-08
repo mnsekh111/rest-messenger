@@ -1,4 +1,4 @@
-package com.mns.rest.messenger;
+package com.mns.rest.messenger.resources;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
