@@ -18,7 +18,7 @@ import javax.ws.rs.core.MediaType;
 @Path("/users")
 public class UserResource {
 
-    public static UserService uservice = new UserService();
+    public static UserService uservice = UserService.getInstance();
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -53,6 +53,11 @@ public class UserResource {
     @Path("/{userId}")
     public void deleteUser(@PathParam("userId") String phoneNumber){
         uservice.deleteUser(phoneNumber);
+    }
+
+    @Path("/{userId}/messages")
+    public MessageResource redirectMessages(){
+        return new MessageResource();
     }
 
 }

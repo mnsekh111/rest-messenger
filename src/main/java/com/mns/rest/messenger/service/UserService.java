@@ -19,9 +19,20 @@ public class UserService {
 
     private Map<String, User> userList = DataStore.getUserMap();
 
-    public UserService() {
+    private static UserService userServiceInstance = null;
+
+    public static UserService getInstance() {
+        if (userServiceInstance == null) {
+            userServiceInstance = new UserService();
+        }
+        return userServiceInstance;
+    }
+
+    private UserService() {
         userList.put("91952677721", new User("mns", "91952677721"));
         userList.put("91952677722", new User("mns2", "91952677722"));
+        MessageService.getInstance().initUserMessageStore("91952677721");
+        MessageService.getInstance().initUserMessageStore("91952677722");
 
     }
 
@@ -39,6 +50,7 @@ public class UserService {
             return null;
         else {
             userList.put(user.getPhoneNumber(), user);
+            MessageService.getInstance().initUserMessageStore(user.getPhoneNumber());
             return userList.get(user.getPhoneNumber());
         }
     }
