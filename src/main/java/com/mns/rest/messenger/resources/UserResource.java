@@ -9,9 +9,7 @@ import com.mns.rest.messenger.model.User;
 import com.mns.rest.messenger.service.UserService;
 
 import java.util.List;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -23,8 +21,38 @@ public class UserResource {
     public static UserService uservice = new UserService();
 
     @GET
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces(MediaType.APPLICATION_JSON)
     public List<User> getAllUsers() {
         return uservice.getAllUsers();
     }
+
+    @GET
+    @Path("/{userId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getUser(@PathParam("userId") String userId) {
+        return uservice.getUser(userId);
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public User addUser(User user) {
+        return uservice.addNewUser(user);
+    }
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{userId}")
+    public User updateUser(@PathParam("userId") String phoneNumber, User user){
+        return uservice.updateUser(phoneNumber,user);
+    }
+
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{userId}")
+    public void deleteUser(@PathParam("userId") String phoneNumber){
+        uservice.deleteUser(phoneNumber);
+    }
+
 }

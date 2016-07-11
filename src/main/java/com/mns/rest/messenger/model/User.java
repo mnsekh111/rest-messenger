@@ -8,13 +8,11 @@ package com.mns.rest.messenger.model;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
  * @author mns
  */
 @XmlRootElement
 public class User {
 
-    private long id;
     private String name;
     private String phoneNumber;
 
@@ -22,19 +20,13 @@ public class User {
     }
 
     public User(String phoneNumber) {
-        this.id = -1;
         this.name = "anon";
         this.phoneNumber = phoneNumber;
     }
 
-    public User(long id, String name, String phoneNumber) {
-        this.id = id;
+    public User(String name, String phoneNumber) {
         this.name = name;
         this.phoneNumber = phoneNumber;
-    }
-
-    public long getId() {
-        return id;
     }
 
     public String getName() {

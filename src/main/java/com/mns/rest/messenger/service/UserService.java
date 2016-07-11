@@ -5,30 +5,56 @@
  */
 package com.mns.rest.messenger.service;
 
+import com.mns.rest.messenger.db.DataStore;
 import com.mns.rest.messenger.model.User;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
- *
  * @author mns
  */
 public class UserService {
 
-    private ArrayList<User> userList = new ArrayList<>();
+    private Map<String, User> userList = DataStore.getUserMap();
 
-    public String createUser(String name, String phoneNumber) {
-        if (userList.contains(new User(phoneNumber))) {
-            return "User already exists";
-        } else {
-            userList.add(new User(userList.size(), name, phoneNumber));
-            return "User added successfully";
+    public UserService() {
+        userList.put("91952677721", new User("mns", "91952677721"));
+        userList.put("91952677722", new User("mns2", "91952677722"));
+
+    }
+
+
+    public List<User> getAllUsers() {
+        return new ArrayList<>(userList.values());
+    }
+
+    public User getUser(String id) {
+        return userList.get(id);
+    }
+
+    public User addNewUser(User user) {
+        if (userList.containsKey(user.getName()))
+            return null;
+        else {
+            userList.put(user.getPhoneNumber(), user);
+            return userList.get(user.getPhoneNumber());
         }
     }
 
-    public List<User> getAllUsers() {
-        createUser("mns", "91952677721");
-        createUser("mns2", "91952677722");
-        return userList;
+    public User updateUser(String phoneNumber, User user) {
+        if (userList.containsKey(phoneNumber)) {
+            userList.put(phoneNumber, user);
+            return userList.get(phoneNumber);
+        } else {
+            return null;
+        }
+    }
+
+    public void deleteUser(String phoneNumber) {
+        if (userList.containsKey(phoneNumber)) {
+            userList.remove(phoneNumber);
+        }
     }
 }
