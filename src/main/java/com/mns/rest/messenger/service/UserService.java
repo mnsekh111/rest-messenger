@@ -12,9 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author mns
- */
 public class UserService {
 
     private Map<String, User> userList = DataStore.getUserMap();
@@ -46,7 +43,7 @@ public class UserService {
     }
 
     public User addNewUser(User user) {
-        if (userList.containsKey(user.getName()))
+        if (userList.containsKey(user.getPhoneNumber()))
             return null;
         else {
             userList.put(user.getPhoneNumber(), user);
@@ -57,16 +54,20 @@ public class UserService {
 
     public User updateUser(String phoneNumber, User user) {
         if (userList.containsKey(phoneNumber)) {
-            userList.put(phoneNumber, user);
+            if (user.getPhoneNumber().contentEquals(phoneNumber)) {
+                userList.put(phoneNumber, user);
+            }
             return userList.get(phoneNumber);
         } else {
             return null;
         }
     }
 
-    public void deleteUser(String phoneNumber) {
+    public int deleteUser(String phoneNumber) {
         if (userList.containsKey(phoneNumber)) {
             userList.remove(phoneNumber);
+            return 1;
         }
+        return -1;
     }
 }
