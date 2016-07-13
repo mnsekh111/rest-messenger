@@ -4,9 +4,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by mns on 8/7/16.
- */
+
 @XmlRootElement
 public class Message {
     private String id;
