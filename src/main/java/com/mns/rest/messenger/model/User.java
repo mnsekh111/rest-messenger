@@ -7,9 +7,6 @@ package com.mns.rest.messenger.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- * @author mns
- */
 @XmlRootElement
 public class User {
 
@@ -50,4 +47,7 @@ public class User {
         return this.phoneNumber.contentEquals(((User) obj).phoneNumber);
     }
 
+    public boolean isUpdated(User user){
+        return name.contentEquals(user.getName()) && phoneNumber.contentEquals(user.getPhoneNumber());
+    }
 }
