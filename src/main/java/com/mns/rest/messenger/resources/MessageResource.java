@@ -1,15 +1,15 @@
 package com.mns.rest.messenger.resources;
 
+import com.mns.rest.messenger.filters.MessageFilterAnnotation;
 import com.mns.rest.messenger.model.Message;
 import com.mns.rest.messenger.service.MessageService;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 
-/**
- * Created by mns on 8/10/16.
- */
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
@@ -19,18 +19,26 @@ public class MessageResource {
 
 
     @GET
-    public ArrayList<Message> getAllMessages(@PathParam("userId") String userId) {
-        return ms.getMessages(userId);
+    public Response getAllMessages(@PathParam("userId") String userId) {
+        ArrayList<Message> list = new ArrayList<>(ms.getMessages(userId));
+        GenericEntity<ArrayList<Message>> glist = new GenericEntity<ArrayList<Message>>(list) {
+        };
+        return Response.ok(glist).build();
     }
 
     @GET
+    @MessageFilterAnnotation
     @Path("/{receiverId}")
-    public ArrayList<Message> getAllMessages(@PathParam("receiverId") String receiverId,
-                                             @PathParam("userId") String userId) {
-        return ms.getMessageReceiver(userId, receiverId);
+    public Response getAllMessages(@PathParam("receiverId") String receiverId,
+                                   @PathParam("userId") String userId) {
+        ArrayList<Message> list = new ArrayList<>(ms.getMessageReceiver(userId, receiverId));
+        GenericEntity<ArrayList<Message>> glist = new GenericEntity<ArrayList<Message>>(list) {
+        };
+        return Response.ok(glist).build();
     }
 
     @GET
+    @MessageFilterAnnotation
     @Path("/{receiverId}/{id}")
     public Message getMessage(@PathParam("receiverId") String receiverId,
                               @PathParam("userId") String userId,
@@ -39,6 +47,7 @@ public class MessageResource {
     }
 
     @DELETE
+    @MessageFilterAnnotation
     @Path("/{receiverId}")
     public void deleteAllMessages(@PathParam("userId") String userId,
                                   @PathParam("receiverId") String receiverId) {
@@ -52,6 +61,7 @@ public class MessageResource {
 
 
     @DELETE
+    @MessageFilterAnnotation
     @Path("/{receiverId}/{id}")
     public void deleteMessage(@PathParam("receiverId") String receiverId,
                               @PathParam("id") String id,
@@ -61,9 +71,10 @@ public class MessageResource {
 
     @POST
     @Path("/{receiverId}")
-    @Consumes(MediaType.TEXT_PLAIN)
-    public Message addMessage(@PathParam("receiverId") String receiverId,@PathParam("userId") String userId, String message){
-        return ms.addMessage(userId,receiverId,message);
+    @MessageFilterAnnotation
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Message addMessage(@PathParam("receiverId") String receiverId, @PathParam("userId") String userId, String message) {
+        return ms.addMessage(userId, receiverId, message);
     }
 
 }

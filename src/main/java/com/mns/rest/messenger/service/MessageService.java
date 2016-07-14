@@ -6,9 +6,7 @@ import com.mns.rest.messenger.model.Message;
 import java.util.ArrayList;
 import java.util.Map;
 
-/**
- * Created by mns on 8/10/16.
- */
+
 public class MessageService {
 
     private Map<String, ArrayList<Message>> userMessageMap = DataStore.getUserMessageMap();
@@ -32,7 +30,7 @@ public class MessageService {
 
     public Message addMessage(String sender, String receiver, String message) {
 
-        ArrayList<Message> allMessages = new ArrayList<>(userMessageMap.get(sender));
+        ArrayList<Message> allMessages = userMessageMap.get(sender);
         ArrayList<Message> allMessagesFromReceiver = getMessageReceiver(sender,receiver);
         String id = "1";
         if (allMessagesFromReceiver.size() > 0) {
@@ -40,29 +38,28 @@ public class MessageService {
         }
         Message message1 = new Message(id,message,receiver);
         allMessages.add(message1);
-        userMessageMap.put(sender,allMessages);
         return message1;
     }
 
     public void deleteMessage(String sender,String receiver,String id){
-        ArrayList<Message> allMessages = new ArrayList<>(userMessageMap.get(sender));
+        ArrayList<Message> allMessages = userMessageMap.get(sender);
         allMessages.remove(new Message(id,null,receiver));
     }
 
     public void deleteMessages(String sender) {
-        ArrayList<Message> allMessages = new ArrayList<>(userMessageMap.get(sender));
+        ArrayList<Message> allMessages = userMessageMap.get(sender);
         allMessages.clear();
     }
 
     public void deleteMessageReceiver(String sender,String receiver){
         ArrayList<Message> filteredMessages = new ArrayList<>();
-        ArrayList<Message> allMessages = new ArrayList<>(userMessageMap.get(sender));
+        ArrayList<Message> allMessages = userMessageMap.get(sender);
         for(Message msg : allMessages){
             if(!msg.getReceiverPhoneNumber().contentEquals(receiver)) {
                 filteredMessages.add(msg);
             }
         }
-        allMessages = filteredMessages;
+        userMessageMap.put(sender,filteredMessages);
     }
 
     public Message getMessage(String sender,String receiver,String id) {
@@ -76,12 +73,12 @@ public class MessageService {
     }
 
     public ArrayList<Message> getMessages(String sender){
-        ArrayList<Message> allMessages = new ArrayList<>(userMessageMap.get(sender));
+        ArrayList<Message> allMessages = userMessageMap.get(sender);
         return allMessages;
     }
 
     public ArrayList<Message> getMessageReceiver(String sender, String receiver) {
-        ArrayList<Message> allMessages = new ArrayList<>(userMessageMap.get(sender));
+        ArrayList<Message> allMessages = userMessageMap.get(sender);
         ArrayList<Message> filteredMessages = new ArrayList<>();
         for (Message msg : allMessages) {
             if (msg.getReceiverPhoneNumber().contentEquals(receiver)) {
